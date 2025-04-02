@@ -399,14 +399,14 @@ private void createChildDevice(String deviceName, String deviceNumber) {
          		case "carbonDioxide": 
                 		deviceHandlerName = "Generic Component Carbon Dioxide Detector"
                 	break 
-                case "tds":
-    					deviceNameSpace = "amithalp"
-    					deviceHandlerName = "HubDuino Component TDS Sensor"
-    				break
-				case "ph":
- 					   deviceNameSpace = "amithalp"
-  					   deviceHandlerName = "HubDuino Component pH Sensor"
-    				break
+                        case "tds":
+    				deviceNameSpace = "amithalp"
+    				deviceHandlerName = "HubDuino Component TDS Sensor"
+    			break
+			case "ph":
+ 				deviceNameSpace = "amithalp"
+  				deviceHandlerName = "HubDuino Component pH Sensor"
+    			break
 			default: 
                 	log.error "No Child Device Handler case for ${deviceName}"
       		}
