@@ -1,0 +1,40 @@
+/**
+ *  HubDuino Component TDS Sensor
+ */
+metadata {
+	definition (name: "HubDuino Component TDS Sensor", namespace: "amithalp", author: "Amit Halperin") {
+		capability "Sensor"
+		attribute "tds", "number"
+	}
+
+	preferences {
+		input name: "logEnable", type: "bool", title: "Enable debug logging", defaultValue: true
+		input name: "numDecimalPlaces", type: "enum", title: "Number of decimal places", defaultValue: "0", required: true, multiple: false, options:["0", "1", "2", "3"]
+	}
+}
+
+def logsOff() {
+	log.warn "debug logging disabled..."
+	device.updateSetting("logEnable", [value: "false", type: "bool"])
+}
+
+def parse(Map description) {
+	if (logEnable) log.debug "parse(${description}) called"
+	def name = description.name
+	def value = description.value
+	if (name && value) {
+		float tmpValue = Float.parseFloat(value.toString())
+		if (numDecimalPlaces) tmpValue = tmpValue.round(numDecimalPlaces.toInteger())
+		sendEvent(name: "tds", value: tmpValue, unit: "ppm")
+	} else {
+		log.error "Missing either name or value. Cannot parse!"
+	}
+}
+
+def installed() {
+	updated()
+}
+
+def updated() {
+	if (logEnable) runIn(1800, logsOff)
+}
